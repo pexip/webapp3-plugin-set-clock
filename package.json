@@ -1,0 +1,28 @@
+{
+  "name": "breakout-join-notification",
+  "version": "1.0.0",
+  "description": "Plugin that shows a toast message when participants join breakout rooms.",
+  "main": "index.js",
+  "scripts": {
+    "start": "vite",
+    "build": "vite build",
+    "lint": "eslint ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "Apache-2.0",
+  "type": "module",
+  "dependencies": {
+    "@pexip/plugin-api": "22.1.7"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "eslint": "^9.39.4",
+    "eslint-config-love": "^151.0.0",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.8.1",
+    "typescript": "^6.0.2",
+    "vite": "^8.0.3",
+    "vite-plugin-mkcert": "^1.17.10"
+  }
+}
