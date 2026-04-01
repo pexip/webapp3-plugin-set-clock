@@ -14,7 +14,8 @@ plugin.events.authenticatedWithConference.add(() => {
     method: 'POST',
     payload: {
       type: 'time',
-      date: 'dd/mm/yyyy'
+      date: 'dd/mm/yyyy',
+      suffix: ' UTC'
     }
   })
 })
