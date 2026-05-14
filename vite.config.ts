@@ -19,26 +19,7 @@ export default defineConfig(({ mode }) => {
       }
     ]
   }
-  // const manifestContent = {
-  //   images: {},
-  //   translations: {},
-  //   plugins: [
-  //     {
-  //       src: './plugins/recording-plugin/index.html',
-  //       sandboxValues: ['allow-same-origin'],
-  //       id: 'recording-plugin'
-  //     },
-  //     {
-  //       src: './plugins/courts-control-plugin/index.html',
-  //       sandboxValues: ['allow-same-origin'],
-  //       id: 'pause-resume-hearing-plugin'
-  //     },
-  //     {
-  //       src: `https://localhost:${port}`,
-  //       sandboxValues: ['allow-same-origin']
-  //     }
-  //   ]
-  // }
+
   const manifest = JSON.stringify(manifestContent)
 
   if (mode === 'development') {
