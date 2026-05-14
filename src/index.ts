@@ -1,5 +1,5 @@
 import { registerPlugin } from '@pexip/plugin-api'
-import type { Config } from './types'
+import { validateConfig } from './validateConfig'
 
 const version = 1
 
@@ -10,8 +10,20 @@ const plugin = await registerPlugin({
 
 plugin.events.authenticatedWithConference.add(async () => {
   const response = await fetch('./config.json')
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- Response is a JSON file with the Config shape
-  const config = (await response.json()) as Config
+  if (!response.ok) {
+    // eslint-disable-next-line no-console -- Log diagnostic error for missing or invalid config
+    console.error(
+      `Failed to load config.json: ${response.status.toString()} ${response.statusText}`
+    )
+    return
+  }
+
+  const json: unknown = await response.json()
+
+  const config = validateConfig(json)
+  if (config === undefined) {
+    return
+  }
 
   // Check if the clock is already set and only send the request if it needs to be updated.
   // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-type-assertion,@typescript-eslint/no-explicit-any -- Send request is not typed
