@@ -18,7 +18,15 @@ plugin.events.authenticatedWithConference.add(async () => {
     return
   }
 
-  const json: unknown = await response.json()
+  // eslint-disable-next-line @typescript-eslint/init-declarations -- Assigned inside try/catch
+  let json: unknown
+  try {
+    json = await response.json()
+  } catch (error) {
+    // eslint-disable-next-line no-console -- Log diagnostic error for malformed config
+    console.error('Failed to parse config.json:', error)
+    return
+  }
 
   const config = validateConfig(json)
   if (config === undefined) {

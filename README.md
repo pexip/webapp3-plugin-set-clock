@@ -44,6 +44,10 @@ Example to set a countdown clock of 5 minutes:
 }
 ```
 
+The plugin first checks the current conference clock using `get_clock`. If a
+clock is already configured, the plugin will not overwrite it with the values
+from `config.json`.
+
 For more information about the configuration of the clock, check the
 [Pexip REST API documentation](https://docs.pexip.com/api_client/api_rest.htm#set_clock).
 

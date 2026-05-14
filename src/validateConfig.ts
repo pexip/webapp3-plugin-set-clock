@@ -24,6 +24,23 @@ const logError = (message: string): void => {
   console.error(`Invalid config.json: ${message}`)
 }
 
+const logWarning = (message: string): void => {
+  // eslint-disable-next-line no-console -- Log diagnostic warning for ignored config fields
+  console.warn(`config.json: ${message}`)
+}
+
+const warnIgnoredFields = (
+  type: Config['type'],
+  obj: Record<string, unknown>
+): void => {
+  if (type !== 'remaining' && obj.starting_value !== undefined) {
+    logWarning(`"starting_value" is ignored when type is "${type}"`)
+  }
+  if (type !== 'time' && obj.date !== undefined) {
+    logWarning(`"date" is ignored when type is "${type}"`)
+  }
+}
+
 const validateTypeSpecificFields = (
   type: Config['type'],
   obj: Record<string, unknown>
@@ -42,6 +59,7 @@ const validateTypeSpecificFields = (
     logError(`"date" must be one of ${VALID_DATE_FORMATS.join(', ')}`)
     return false
   }
+  warnIgnoredFields(type, obj)
   return true
 }
 
@@ -62,12 +80,13 @@ const buildConfig = (
   type: Config['type']
 ): Config => ({
   type,
-  ...(isValidStartingValue(obj.starting_value) && {
-    starting_value: obj.starting_value
-  }),
+  ...(type === 'remaining' &&
+    isValidStartingValue(obj.starting_value) && {
+      starting_value: obj.starting_value
+    }),
   ...(typeof obj.prefix === 'string' && { prefix: obj.prefix }),
   ...(typeof obj.suffix === 'string' && { suffix: obj.suffix }),
-  ...(isValidDateFormat(obj.date) && { date: obj.date })
+  ...(type === 'time' && isValidDateFormat(obj.date) && { date: obj.date })
 })
 
 export const validateConfig = (config: unknown): Config | undefined => {
