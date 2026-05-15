@@ -1,5 +1,6 @@
 import { registerPlugin } from '@pexip/plugin-api'
-import { validateConfig } from './validateConfig'
+import { loadConfig } from './loadConfig'
+import type { Config } from './types'
 
 const version = 1
 
@@ -9,26 +10,14 @@ const plugin = await registerPlugin({
 })
 
 plugin.events.authenticatedWithConference.add(async () => {
-  const response = await fetch('./config.json')
-  if (!response.ok) {
-    // eslint-disable-next-line no-console -- Log diagnostic error for missing or invalid config
-    console.error(
-      `Failed to load config.json: ${response.status.toString()} ${response.statusText}`
-    )
-    return
-  }
+  const config: Config | undefined = await loadConfig().catch(
+    (error: unknown) => {
+      // eslint-disable-next-line no-console -- Log error for failed config load
+      console.error('Failed to load config:', error)
+      return undefined
+    }
+  )
 
-  // eslint-disable-next-line @typescript-eslint/init-declarations -- Assigned inside try/catch
-  let json: unknown
-  try {
-    json = await response.json()
-  } catch (error) {
-    // eslint-disable-next-line no-console -- Log diagnostic error for malformed config
-    console.error('Failed to parse config.json:', error)
-    return
-  }
-
-  const config = validateConfig(json)
   if (config === undefined) {
     return
   }
