@@ -6,7 +6,7 @@ const version = 1
 const config = await loadConfig()
 
 const plugin = await registerPlugin({
-  id: 'set-clock',
+  id: 'webapp3-plugin-set-clock',
   version
 })
 
