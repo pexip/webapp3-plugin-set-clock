@@ -13,6 +13,44 @@ To activate this plugin you have to comply with the following requirements:
 More information about the clock can be found in the
 [documentation](https://docs.pexip.com/admin/display_timer.htm).
 
+## Configuration
+
+The plugin will read the configuration from the `config.json` file. The
+configuration has the following format:
+
+```json
+{
+  "type": "time",
+  "date": "dd/mm/yyyy",
+  "suffix": " UTC"
+}
+```
+
+| Field          | Type   | Description                                                                                                                                                                                                       |
+| -------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| type           | string | The clock options are: <ul><li>`"elapsed"`: the clock increments starting from 0.</li><li>`"remaining"`: the clock decrements from `starting_value`.</li><li>`"time"`: displays the current local time.</li></ul> |
+| starting_value | number | The starting value in seconds for the countdown timer. Only applies for a type of `remaining`. Range: 1-31536000                                                                                                  |
+| prefix         | string | Optional text to display before the clock.                                                                                                                                                                        |
+| suffix         | string | Optional text to display after the clock.                                                                                                                                                                         |
+| date           | string | The required date format. The options are: <ul><li>`"dd/mm/yyyy"`</li><li>`"mm/dd/yyyy"`</li></ul> Only applies for a type of `time`.                                                                             |
+
+Example to set a countdown clock of 5 minutes:
+
+```json
+{
+  "type": "remaining",
+  "starting_value": 300,
+  "prefix": "Time remaining: "
+}
+```
+
+The plugin first checks the current conference clock using `get_clock`. If a
+clock is already configured, the plugin will not overwrite it with the values
+from `config.json`.
+
+For more information about the configuration of the clock, check the
+[Pexip REST API documentation](https://docs.pexip.com/api_client/api_rest.htm#set_clock).
+
 ## Run for development
 
 - To be able to build the plugin, you need to comply with the following versions

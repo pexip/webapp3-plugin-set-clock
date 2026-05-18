@@ -1,21 +1,31 @@
 import { registerPlugin } from '@pexip/plugin-api'
+import { loadConfig } from './loadConfig'
 
 const version = 1
+
+const config = await loadConfig()
 
 const plugin = await registerPlugin({
   id: 'set-clock',
   version
 })
 
-plugin.events.authenticatedWithConference.add(() => {
+plugin.events.authenticatedWithConference.add(async () => {
+  // Skip if the clock is already configured (result is an object with the current config).
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-type-assertion,@typescript-eslint/no-explicit-any -- Send request is not typed
+  const clock = (await (plugin.conference as any).sendRequest({
+    path: 'get_clock',
+    method: 'GET'
+  })) as { data: { result: object | boolean } }
+
+  if (typeof clock.data.result === 'object') {
+    return
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-type-assertion,@typescript-eslint/no-explicit-any -- Send request is not typed
   ;(plugin.conference as any).sendRequest({
     path: 'set_clock',
     method: 'POST',
-    payload: {
-      type: 'time',
-      date: 'dd/mm/yyyy',
-      suffix: ' UTC'
-    }
+    payload: config
   })
 })
