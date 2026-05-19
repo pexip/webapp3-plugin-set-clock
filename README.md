@@ -58,7 +58,7 @@ For more information about the configuration of the clock, check the
 
   | NodeJS   | NPM     |
   | -------- | ------- |
-  | v20.12.2 | v10.5.0 |
+  | v22.19.0 | v10.9.3 |
 
 - Create a file `.env` in the root of the project with the following content:
 
