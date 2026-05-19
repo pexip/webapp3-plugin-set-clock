@@ -1,7 +1,7 @@
 {
-  "name": "breakout-join-notification",
+  "name": "webapp3-plugin-set-clock",
   "version": "1.0.0",
-  "description": "Plugin that shows a toast message when participants join breakout rooms.",
+  "description": "Plugin that sets a conference clock.",
   "main": "index.js",
   "scripts": {
     "start": "vite",
