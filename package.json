@@ -16,7 +16,7 @@
     "@pexip/plugin-api": "22.1.9"
   },
   "devDependencies": {
-    "@types/node": "^25.8.0",
+    "@types/node": "^26.6.5",
     "eslint": "^9.39.4",
     "eslint-config-love": "^154.0.0",
     "eslint-config-prettier": "^10.1.8",
